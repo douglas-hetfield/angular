@@ -1,0 +1,14 @@
+.form-queue {
+    button {
+        position: relative;
+        width: 180px;
+        &.btn-datepicker {
+            width: auto !important;
+        }
+        img {
+            width: 28px;
+            position: absolute;
+            right: 10px;
+        }
+    }
+}

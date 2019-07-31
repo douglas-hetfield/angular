@@ -1,0 +1,18 @@
+.navbar-brand {
+    height: 60px;
+    .logo-header {
+        width: 100%;
+        height: 100%;
+        img {
+            width: 110px;
+        }
+        h3 {
+            font-weight: 100;
+            font-family: monospace;
+            margin-top: 18px;
+            b {
+                font-weight: 800;
+            }
+        }
+    }
+}

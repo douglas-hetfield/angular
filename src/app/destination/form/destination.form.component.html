@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Incluir Destino</h4>
+        <!-- FORM BEGIN -->
+        <form class="m-t-30 form-destination" [formGroup]="formGroupDestination" (ngSubmit)="actionDestination()" novalidate>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="inputName">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputName"
+                  name="name"
+                  formControlName="name"
+                  placeholder="Informe o nome do destino"
+                  [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
+                >
+                <div class="invalid-feedback" *ngIf="f.name.dirty && f.name.errors?.required">
+                  Informe o nome do destino.
+                </div>
+                <div class="invalid-feedback" *ngIf="f.name.errors?.maxlength">
+                  O campo nome permite {{ f.name.errors.maxlength?.requiredLength }} caractéres e está com {{ f.name.errors.maxlength?.actualLength }}
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="inputSmsMessage">Mensagem SMS</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputSmsMessage"
+                  name="smsmessage"
+                  formControlName="smsmessage"
+                  placeholder="Informe a mensagem que será enviada por SMS"
+                  [ngClass]="{ 'is-invalid': f.smsmessage.dirty && f.smsmessage.errors }"
+                >
+                <div class="invalid-feedback" *ngIf="f.smsmessage.dirty && f.smsmessage.errors?.required">
+                  Informe a mensem que será enviada por SMS.
+                </div>
+                <div class="invalid-feedback" *ngIf="f.smsmessage.errors?.maxlength">
+                  O campo mensagem do SMS permite {{ f.smsmessage.errors.maxlength?.requiredLength }} caractéres e está com {{ f.smsmessage.errors.maxlength?.actualLength }}
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-btns">
+              <button type="submit" class="btn btn-info btn-lg pull-right mt-auto" [disabled]="formGroupDestination.invalid || submitted">{{ buttonValue }} <img src="assets/images/mpsp/loading.gif" alt="loading" *ngIf="submitted"></button>
+            </div>
+          </div>
+        </form>
+        <!-- FORM END -->
+      </div>
+    </div>
+  </div>
+</div>

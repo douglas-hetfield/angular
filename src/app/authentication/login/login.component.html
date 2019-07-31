@@ -1,0 +1,52 @@
+<!-- <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;"> -->
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+  <div class="auth-box">
+    <div id="loginform" [ngClass]="{'d-none': recoverform}">
+      <div class="logo">
+        <h1>AUTENTICAÇÃO</h1>
+      </div>
+      <!-- Form -->
+      <div class="row">
+        <div class="col-12">
+          <form class="form-horizontal m-t-20" id="loginform" [formGroup]="formGroupLogin" (ngSubmit)="onSubmitLogin()"
+            novalidate>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+              </div>
+              <input type="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email"
+                aria-describedby="basic-addon1" required autofocus
+                [ngClass]="{ 'input-error': ( formGroupLogin.get('email').dirty && formGroupLogin.get('email').hasError('required') ) }"
+                name="email" id="email" formControlName="email" autocomplete="Email">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock" aria-hidden="true"></i></span>
+              </div>
+              <input type="password" class="form-control form-control-lg" placeholder="Senha" aria-label="Senha"
+                aria-describedby="basic-addon1" required
+                [ngClass]="{ 'input-error': ( formGroupLogin.get('password').dirty && formGroupLogin.get('password').hasError('required') ) || ( formGroupLogin.get('password').dirty && formGroupLogin.get('password').hasError('minlength') ) || ( formGroupLogin.get('password').dirty && formGroupLogin.get('password').hasError('maxlength') ) }"
+                name="password" id="password" formControlName="password" autocomplete="Senha">
+            </div>
+            <div class="form-group text-center">
+              <div class="col-xs-12 p-b-20">
+                <button class="btn btn-block btn-lg btn-info" type="submit" [disabled]="submitted">Entrar
+                  <img src="assets/images/mpsp/loading.gif" alt="" *ngIf="submitted"></button>
+              </div>
+            </div>
+            <div class="form-group m-b-0 m-t-10" *ngIf="errorCredentials">
+              <div class="alert alert-danger">
+                <strong>Erro!</strong> Email ou senha inválidos.
+              </div>
+            </div>
+            <div class="form-group m-b-0 m-t-10">
+              <div class="col-sm-12 text-center">
+                Controle de Fila - versão 1.0.0
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

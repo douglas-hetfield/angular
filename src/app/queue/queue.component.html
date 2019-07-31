@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+              <h4 class="card-title" *ngIf="destinations.length > 0 && destination">{{ rows.length }} pessoa{{ rows.length == 1 ? '' : 's' }} na fila</h4>
+              <h4 class="card-title" *ngIf="destinations.length > 0 && !destination">Selecione um destino</h4>
+              <h4 class="card-title" *ngIf="destinations.length == 0">Nenhum destino cadastrado</h4>
+            </div>        
+            <div class="col-4 text-right">
+              <a href="fila/incluir">Incluir novo</a>
+            </div>
+            <div class="col-12 destination-options">
+              <h3 *ngIf="destinations.length == 0">Nenhum destino cadastrado.</h3>
+              <div *ngIf="destinations.length > 0">
+                <button type="button" class="btn btn-{{destination ? (item.id == destination.id ? 'primary' : 'light') : 'light'}}" *ngFor="let item of destinations" (click)="setDestination(item)">{{ item.name }}</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <ngx-datatable #QueueTable
+          class='material'
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [limit]="10"
+          [rows]='rows'
+          [messages]="messages"
+        >
+          <ngx-datatable-column name="#" prop="id" [width]="20">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              {{row.id}}
+            </ng-template>
+          </ngx-datatable-column> 
+          <ngx-datatable-column name="Nome" prop="fullname">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              {{row.fullname}}
+              <br>
+              <span class="badge badge-{{getSmsBadge(row.sms)}}">{{getSmsStatus(row.sms)}}</span>
+              <span class="badge badge-{{row.attended == 0 ? 'dark' : (row.attended == 1 ? 'success' : 'danger')}}">{{row.attended == 0 ? 'Aguardando' : ( row.attended == 1 ? 'Compareceu' : 'Não compareceu') }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Data/Hora" prop="created_at" [width]="50">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <span class="dete-format">{{row.created_at | dateFormat}}</span>
+              <br>
+              {{row.created_at | timeFormat}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Celular" prop="phone" [width]="60">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              {{row.phone | mask: '(00 00) 00000-0000'}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Ação" prop="action" [width]="180">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <button
+                type="button"
+                class="btn btn-{{ row.attended == 1 ? 'secondary' : (row.sms == 0 ? 'success' : (row.sms == 1 ? 'warning' : 'secondary')) }}"
+                [disabled]="row.attended || row.sms > 1"
+                (click)="sendSms(row)"
+              >{{ row.sms == 1 ? 'Reenviar' : 'Enviar' }}</button>
+              <button
+                type="button"
+                class="btn btn-{{ row.attended == 0 ? 'primary' : 'secondary' }}"
+                [disabled]="row.attended"
+                (click)="registerAttendance(row, 1)"
+              ><i class="fa fa-user" aria-hidden="true"></i></button>
+              <button
+                type="button"
+                class="btn btn-{{ row.attended == 0 ? 'danger' : 'secondary' }}"
+                [disabled]="row.attended"
+                (click)="registerAttendance(row, 2)"
+              ><i class="fa fa-user-times" aria-hidden="true"></i></button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+</div>

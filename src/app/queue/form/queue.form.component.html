@@ -1,0 +1,166 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Selecione o Destino</h4>
+        <div class="destination-options">
+          <h3 *ngIf="destinations.length == 0">Nenhum destino cadastrado.</h3>
+          <div *ngIf="destinations.length > 0">
+            <button type="button" class="btn btn-{{destination ? (item.id == destination.id ? 'primary' : 'light') : 'light'}}" *ngFor="let item of destinations" (click)="setDestination(item)">{{ item.name }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" [hidden]="!destination">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Incluir participante</h4>
+          <!-- FORM BEGIN -->
+          <form class="m-t-30 form-queue" [formGroup]="formGroupQueue" (ngSubmit)="addParticipant()" novalidate>
+            <div class="row">
+              <div class="col-8">
+                <div class="form-group">
+                  <label for="inputName">Nome completo *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputName"
+                    name="fullname"
+                    formControlName="fullname"
+                    placeholder="Informe o nome do participante"
+                    [ngClass]="{ 'is-invalid': f.fullname.dirty && f.fullname.errors }"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.fullname.dirty && f.fullname.errors?.required">
+                    Informe o nome do participante.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="f.fullname.errors?.maxlength">
+                    O campo nome permite {{ f.fullname.errors.maxlength?.requiredLength }} caractéres e está com {{ f.fullname.errors.maxlength?.actualLength }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="inputPhone">Celular *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputPhone"
+                    name="phone"
+                    formControlName="phone"
+                    placeholder="Informe o número do celular do participante"
+                    [ngClass]="{ 'is-invalid': f.phone.dirty && f.phone.errors }"
+                    mask="(00 00) 00000-0000"
+                    (focus)="setDDI()"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.phone.dirty && f.phone.errors?.required">
+                    Informe o número do celular do participante.
+                  </div>
+                  <div class="invalid-feedback" *ngIf="f.phone.errors?.maxlength">
+                    O campo celular permite {{ f.phone.errors.maxlength?.requiredLength }} caractéres e está com {{ f.phone.errors.maxlength?.actualLength }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-8">
+                <div class="form-group">
+                  <label for="inputEmail">Email</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail"
+                    name="email"
+                    formControlName="email"
+                    placeholder="Informe o nome do participante"
+                    [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.email.errors?.maxlength">
+                    O campo email permite {{ f.email.errors.maxlength?.requiredLength }} caractéres e está com {{ f.email.errors.maxlength?.actualLength }}
+                  </div>
+                  <div class="invalid-feedback" *ngIf="f.email.errors?.email">
+                    Email inválido.
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="inputBirthday">Data de nascimento</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputBirthday"
+                      placeholder="Informe a data de Nascimento"
+                      name="birthday"
+                      formControlName="birthday"
+                      ngbDatepicker #d="ngbDatepicker"
+                    >
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary btn-datepicker" (click)="d.toggle()" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label for="inputUf">UF</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputUf"
+                    name="uf"
+                    formControlName="uf"
+                    placeholder="UF"
+                    [ngClass]="{ 'is-invalid': f.uf.dirty && f.uf.errors }"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.uf.errors?.maxlength">
+                    O campo UF permite {{ f.uf.errors.maxlength?.requiredLength }} caractéres e está com {{ f.uf.errors.maxlength?.actualLength }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="form-group">
+                  <label for="inputCity">Cidade</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputCity"
+                    name="city"
+                    formControlName="city"
+                    placeholder="Informe a cidade do participante"
+                    [ngClass]="{ 'is-invalid': f.city.dirty && f.city.errors }"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.city.errors?.maxlength">
+                    O campo cidade permite {{ f.city.errors.maxlength?.requiredLength }} caractéres e está com {{ f.city.errors.maxlength?.actualLength }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="form-group">
+                  <label for="inputNeighborhood">Bairro</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputNeighborhood"
+                    name="neighborhood"
+                    formControlName="neighborhood"
+                    placeholder="Informe o bairro do participante"
+                    [ngClass]="{ 'is-invalid': f.neighborhood.dirty && f.neighborhood.errors }"
+                  >
+                  <div class="invalid-feedback" *ngIf="f.neighborhood.errors?.maxlength">
+                    O campo bairro permite {{ f.neighborhood.errors.maxlength?.requiredLength }} caractéres e está com {{ f.neighborhood.errors.maxlength?.actualLength }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-btns">
+                <button type="submit" class="btn btn-info btn-lg pull-right mt-auto" [disabled]="formGroupQueue.invalid || submitted">Incluir <img src="assets/images/mpsp/loading.gif" alt="loading" *ngIf="submitted"></button>
+              </div>
+            </div>
+          </form>
+          <!-- FORM END -->
+        </div>
+      </div>
+    </div>
+  </div>
